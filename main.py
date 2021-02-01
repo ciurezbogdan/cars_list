@@ -16,7 +16,6 @@ if __name__ == '__main__':
     my_cars = []
     header = ()
     cars_data = []
-    print(os.getcwd())
     input_file = os.getcwd() + r'\homework_example.csv'
 
     with open(f'{input_file}') as csv_file:
@@ -54,23 +53,15 @@ if __name__ == '__main__':
         brands.sort()
 
     brands_files = []
-    os.makedirs(name='cars', exist_ok=True)
-    old_path = os.getcwd()
-    path = old_path + r'\cars'
-    os.chdir(path)
 
     for x, z in zip(brands, my_cars):
-        #z = [y for y in my_cars if y.get('brand', 0) == x]
         name = x + '.json'
-        z = [k for k in my_cars if k.get('brand') == x]
+        b_n = [k for k in my_cars if k.get('brand') == x]
         brands_files.append(name)
-        print(x, z)
-        with open(name, 'w') as json_file:
-            json_object = json.dumps(z)
+        with open(os.path.join(f'{os.getcwd()}', 'cars', f'{name}'), 'w') as json_file:
+            json_object = json.dumps(b_n)
             json_file.write(json_object)
 
-    for f in os.listdir():
+    for f in os.listdir(os.path.join(f'{os.getcwd()}', 'cars')):
         if f not in brands_files:
-            os.remove(f)
-
-    os.chdir(old_path)
+            os.remove(os.path.join(f'{os.getcwd()}', 'cars', f))
