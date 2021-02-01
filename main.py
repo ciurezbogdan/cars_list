@@ -16,8 +16,10 @@ if __name__ == '__main__':
     my_cars = []
     header = ()
     cars_data = []
+    print(os.getcwd())
+    input_file = os.getcwd() + r'\homework_example.csv'
 
-    with open(r'C:\Users\_ciurez_bogdan\PycharmProjects\Tema_3\homework_example.csv') as csv_file:
+    with open(f'{input_file}') as csv_file:
         my_data = csv.reader(csv_file)
 
         for index, data in enumerate(my_data):
@@ -57,10 +59,12 @@ if __name__ == '__main__':
     path = old_path + r'\cars'
     os.chdir(path)
 
-    for x in brands:
-        z = [y for y in my_cars if y.get('brand', 0) == x]
+    for x, z in zip(brands, my_cars):
+        #z = [y for y in my_cars if y.get('brand', 0) == x]
         name = x + '.json'
+        z = [k for k in my_cars if k.get('brand') == x]
         brands_files.append(name)
+        print(x, z)
         with open(name, 'w') as json_file:
             json_object = json.dumps(z)
             json_file.write(json_object)
