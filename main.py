@@ -5,14 +5,6 @@ import os.path
 
 if __name__ == '__main__':
 
-    def unique(in_data):
-        output = []
-        for x in in_data:
-            if x not in output:
-                output.append(x)
-        return output
-
-
     my_cars = []
     header = ()
     cars_data = []
@@ -49,12 +41,11 @@ if __name__ == '__main__':
     brands = []
     for car in my_cars:
         brands.append(car.get('brand', None))
-        brands = unique(brands)
-        brands.sort()
+
+    brands_s = {x for x in brands if x is not None}
 
     brands_files = []
-
-    for x, z in zip(brands, my_cars):
+    for x, z in zip(brands_s, my_cars):
         name = x + '.json'
         b_n = [k for k in my_cars if k.get('brand') == x]
         brands_files.append(name)
