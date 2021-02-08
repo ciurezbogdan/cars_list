@@ -8,9 +8,8 @@ if __name__ == '__main__':
     my_cars = []
     header = ()
     cars_data = []
-    input_file = os.getcwd() + r'\homework_example.csv'
 
-    with open(f'{input_file}') as csv_file:
+    with open('homework_example.csv') as csv_file:
         my_data = csv.reader(csv_file)
 
         for index, data in enumerate(my_data):
@@ -33,6 +32,10 @@ if __name__ == '__main__':
                  'expensive_cars.json']
     out_data = [slow_cars, fast_cars, sport_cars, cheap_cars, medium_cars, expensive_cars]
 
+    for f in os.listdir():
+        if str(f).endswith('.json'):
+            os.remove(f)
+
     for y, f in zip(out_names, out_data):
         with open(y, 'w') as json_file:
             json_object = json.dumps(f)
@@ -41,18 +44,15 @@ if __name__ == '__main__':
     brands = []
     for car in my_cars:
         brands.append(car.get('brand', None))
+        brands_s = {x for x in brands if x is not None}
+        brands_files = []
 
-    brands_s = {x for x in brands if x is not None}
+        for x, z in zip(brands_s, my_cars):
+            name = x + '.json'
+            b_n = [k for k in my_cars if k.get('brand') == x]
+            brands_files.append(name)
 
-    brands_files = []
-    for x, z in zip(brands_s, my_cars):
-        name = x + '.json'
-        b_n = [k for k in my_cars if k.get('brand') == x]
-        brands_files.append(name)
-        with open(os.path.join(f'{os.getcwd()}', 'cars', f'{name}'), 'w') as json_file:
-            json_object = json.dumps(b_n)
-            json_file.write(json_object)
-
-    for f in os.listdir(os.path.join(f'{os.getcwd()}', 'cars')):
-        if f not in brands_files:
-            os.remove(os.path.join(f'{os.getcwd()}', 'cars', f))
+            with open(name, 'w') as json_file:
+                json_object = json.dumps(b_n)
+                json_file.write(json_object)
+    
